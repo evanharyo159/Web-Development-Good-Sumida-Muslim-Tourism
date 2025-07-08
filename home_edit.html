@@ -1,0 +1,367 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JapanIkimashou-Home</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .header{
+            position: fixed;
+            top:0;
+            left:0;
+            width:100%;
+            z-index: 1000;
+            background-color: #f4f4f4;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);;
+        }
+
+        .header-inner {
+            max-width: 100%;
+            height: 110px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f4f4f4;
+            padding:0 40px;
+        }
+        .h3 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #8DC3F2;
+            font-weight: bold;
+        }
+
+        .header-logo {
+            width: 170px;
+        }
+
+        .site-menu ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: inline-flex;
+            gap:20px;
+        }
+
+        .site-menu ul li a{
+            text-decoration: none;
+            font-size: 18px;
+            color: #8DC3F2;
+            transition: color 0.3s;
+        }
+
+        .site-menu li a:hover{
+            color: #e14b4b;
+        }
+
+        /* 登録ボタン */
+        .register .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff; /* ボタンの背景色 */
+            color: #fff; /* テキストの色 */
+            text-decoration: none;
+            border-radius: 5px; /* ボタンの角丸 */
+            font-size: 16px; /* テキストサイズ */
+            font-weight: bold; /* 太字にする場合 */
+            border: none; /* 枠線をなくす */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ボタンの影 */
+            transition: background-color 0.3s, transform 0.2s; /* ホバーアニメーション */
+            cursor: pointer; /* ホバー時のカーソル変更 */
+        }
+
+        /* ホバー時のスタイル */
+        .register .btn:hover {
+            background-color: #0056b3; /* ホバー時の背景色 */
+            transform: translateY(-2px); /* ボタンを少し上に動かす */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* ホバー時の影 */
+        }
+
+        /* ボタンを右端に配置 */
+        .register {
+            text-align: right;
+        }
+
+
+        .photo {
+            display: flex;
+        }
+
+        .photo img {
+            width: 33.4%;
+            position: relative;
+            object-fit: cover;
+        }
+
+        .Japan p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            font-weight: 300;
+            text-align: justify;
+        }
+        .Japan {
+            background-color: white; /* Solid background color */
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #333; /* Ensure text color contrasts with the background */
+            opacity: 80%;
+        }
+        .sponsor-banner{
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px auto;
+            padding: 10px 0;
+        }
+        .sponsor-banner a{
+            display: block;
+            text-decoration: none;
+            width: 200px;
+            height: 50px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .sponsor-banner img{
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            transition: transform 0.3s ease;
+        }
+        .sponsor-banners img:hover {
+            transform: scale(1.05);
+        }
+        #map {
+            height: 500px; /* Map height */
+            width: 95vw; /* Map width to almost fill the screen */
+            margin: 20px auto; /* Center the map horizontally */
+            border: 2px solid #ccc; /* Optional: Border around the map */
+            border-radius: 10px; /* Optional: Rounded corners */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<header class="header">
+    <div class="header-inner">
+        <a class="header-logo" href="./Home.html">
+            <img src="logo_new.png" alt="Logo">
+        </a>
+        <div class="header-site-menu">
+            <nav class="site-menu">
+                <ul>
+                    <li><a href="http://localhost/TESTDB_JapanIkimashou/home.html", class="highlight">Home</a></li>
+                    <li><a href="http://localhost/TESTDB_JapanIkimashou/culinary.html">Culinary Spot</a></li>
+                    <li><a href="http://localhost/TESTDB_JapanIkimashou/tourist.html">Tourist Attractions</a></li>
+                    <li><a href="http://localhost/TESTDB_JapanIkimashou/hotel.html">Accommodation</a></li>
+                    <li><a href="http://localhost/TESTDB_JapanIkimashou/prayer_room.html">Prayer Room Spot</a></li>
+                    <li><a href="http://localhost/TESTDB_JapanIkimashou/itinerary_edit.php">Your Trip Itinerary and Budget</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="register">
+            <a class="btn" href="./RegisterYourself.html">Registration</a>
+        </div>
+    </div>
+</header>
+
+<div class="photo">
+
+    <img src="skytree.jpg" alt="Skytree">
+    <img src="kokugikan.jpg" alt="Kokugikan">
+    <img src="hokusai.jpg" alt="Hokusai">
+</div>
+
+<div class="Japan">
+    <p>
+        Sumida City is located in the eastern part of Tokyo and is a lively area rich in traditional downtown charm. Centered around the iconic Tokyo Skytree, the district offers plenty of opportunities for sightseeing and shopping. In Ryogoku, known as the heart of sumo wrestling, you can visit famous landmarks like the Ryogoku Kokugikan (Sumo Arena) and the Edo-Tokyo Museum. Along the Sumida River, the cherry blossoms and fireworks festivals are cherished seasonal traditions. Sumida City beautifully combines history and modernity, making it a fascinating area to explore.
+    </p>
+</div>
+<!-- Overlay header -->
+<div class="h3">
+    <h3>Sumida Tourist's Guide Map</h3>
+</div>
+<div style="position: relative; width: 95vw; margin: 20px auto;">
+    <!-- Map container -->
+    <div id="map"></div>
+</div>
+<script>
+    // Define tourist attractions and their coordinates
+    const touristAttractions = [
+        { name: "Tokyo Skytree", lat: 35.710062, lng: 139.8107 },
+        { name: "Sumida Hokusai Museum", lat: 35.696697222435056, lng: 139.80159416738817 },
+        { name: "The Japanese Sword Museum", lat: 35.699143581709805, lng: 139.7942692082832 },
+        { name: "Sumo Museum", lat: 35.697456, lng: 139.793271 },
+        { name: "Edo Tokyo Museum", lat: 35.69666690463086, lng: 139.7969137719759 },
+        { name: "Kuyuyasuda Garden", lat: 35.698534043083434, lng: 139.79388544144612 },
+        { name: "Sumida River Kitchen", lat: 35.70915, lng: 139.79971 },
+        { name: "Toquio Muslim Hanten", lat: 35.69594, lng: 139.81149 },
+        { name: "Asakusa Mosque", lat: 35.72195614743173, lng: 139.8016772951768 },
+        { name: "Tokyo skytree prayer room", lat: 35.71016, lng: 139.80973 },
+        { name: "Uso no tabacco Cafe&Bar", lat: 35.70072, lng: 139.78741 },
+        { name: "Café Capyba", "lat": 35.720097, "lng": 139.814344 },
+        { name: "Tonkatsu Ichikatsu", "lat": 35.695703, "lng": 139.794268 },
+        { name: "Asahi Sky Room", "lat": 35.711362, "lng": 139.801268 },
+        { name: "Chanko Doujou-main branch", "lat": 35.695823, "lng": 139.798749 },
+        { name: "Chanko Tomoegata", "lat": 35.694935, "lng": 139.792537 },
+        { name: "Sky Restaurant 634 (Musashi)", "lat": 35.710453, "lng": 139.810717 },
+        { name: "Hasegawa", "lat": 35.695065, "lng": 139.793977 },
+        { name: "Kirby Cafe Tokyo", "lat": 35.710355, "lng": 139.811976 },
+        { name: "Hana Sushi", "lat": 35.708957, "lng": 139.810556 },
+        { name: "Makurabashi Public Toilet", lat: 35.712, lng: 139.802 },
+        { name: "Sumida Ward Sumida Park Japanese Garden South Park Toilet", lat: 35.712, lng: 139.805 },
+        { name: "Town Walking Toilet Kotoibashi", lat: 35.714, lng: 139.805 },
+        { name: "Kinshi Park restroom east", lat: 35.699, lng: 139.815 },
+        { name: "Kinshicho station public toilet", lat: 35.696, lng: 139.815 },
+        { name: "Tobu Bridge Public Toilet", lat: 35.710, lng: 139.808 },
+        { name: "Keisei Bridge Public Toilet", lat: 35.709, lng: 139.814 },
+        { name: "Nisshin Park toilet", lat: 35.699, lng: 139.804 },
+        { name: "Yokogawa Bridge Public Toilet", lat: 35.705, lng: 139.808 },
+        { name: "Nakanogo Children's Park Toilet", lat: 35.713, lng: 139.812 },
+        { name: "Narihira Park toilet", lat: 35.706, lng: 139.812 },
+        { name: "Public toilet in the bicycle parking lot in front of Oshiage Station", lat: 35.711, lng: 139.814 },
+        { name: "Keisei Bridge Public Toilet", lat: 35.709, lng: 139.814 },
+        { name: "Hoonji Bridge Public Toilet", lat: 35.701, lng: 139.809 },
+        { name: "Public toilet on the north side of the Tokyo Metropolitan Memorial Hall", lat: 35.700, lng: 139.797 },
+        { name: "Nisshin Park toilet", lat: 35.699, lng: 139.804 },
+        { name: "Public restroom on the south side of the Tokyo Memorial Hall", lat: 35.700, lng: 139.797 },
+        { name: "Town walking toilet Kinshi", lat: 35.697, lng: 139.809 },
+        { name: "Koto Bridge Public Toilet", lat: 35.694, lng: 139.809 },
+        { name: "Nagakura public toilet", lat: 35.697, lng: 139.806 },
+        { name: "Ryogoku Station West Exit Public Toilet", lat: 35.696, lng: 139.792 },
+        { name: "Ryogoku Park toilet", lat: 35.694, lng: 139.796 },
+        { name: "Ryogoku Daiichi Children's Amusement Park Toilet", lat: 35.695, lng: 139.796 },
+        { name: "Asunaro Children's Park Toilet", lat: 35.720, lng: 139.815 },
+        { name: "Yokogawa Higashi Park Toilet", lat: 35.703, lng: 139.818 },
+        { name: "Ryogoku Daiichi Children's Amusement Park Toilet", lat: 35.695, lng: 139.796 },
+        { name: "Tokyo Skytree smoking area", lat: 35.710040, lng: 139.812188 },
+        { name: "Asuka Ryogoku Ekimae store Indoor Smoking Area", lat: 35.69558, lng: 139.79269 },
+        { name: "Ryogoku Station West Exit", lat: 35.69616, lng: 139.79172 },
+        { name: "Public Open Space", lat: 35.69543, lng: 139.79352 },
+        { name: "JEI Ryogoku Building", lat: 35.69541, lng: 139.79433 },
+        { name: "Kinshicho South Exit", lat: 35.69465, lng: 139.81409 },
+        { name: "North Exit Smoking Area", lat: 35.69592, lng: 139.81456 },
+        { name: "Solamachi 7F Smoking Area", lat: 35.71034, lng: 139.81112 },
+        { name: "Solamachi 3F", lat: 35.71034, lng: 139.81112 },
+        { name: "In Front of Tokyo Skytree Observation Deck", lat: 35.71034, lng: 139.81112 },
+        { name: "Tobu Bridge Public Toilet Smoking Area (Tokyo Skytree Station)", lat: 35.70985, lng: 139.80775 },
+        { name: "Solamachi 4th Floor Smoking Area", lat: 35.71034, lng: 139.81112 },
+        { name: "Oshiage Station", lat: 35.71034, lng: 139.81112 },
+        { name: "Times Central Square Oshiage Ekimae Store 4th Floor", lat: 35.71037, lng: 139.81364 },
+        { name: "Skytree East Yard 10", lat: 35.71034, lng: 139.81112 },
+        { name: "Tokyo Skytree Station", lat: 35.7104, lng: 139.8092 },
+        { name: "RYŌGOKU STATION", lat: 35.696, lng: 139.7927 },
+        { name: "Kinshichō Station ", lat: 35.6967, lng: 139.8145 },
+        { name: "Hikifune Cultural Center", lat: 35.71803, lng: 139.81874 }
+    ];
+
+    // Initialize the map centered on Sumida
+    const map = L.map('map').setView([35.7100, 139.8107], 15);
+
+    // Add a tile layer to the map
+    L.tileLayer('https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=2HD8ghqhbRIY1H0g2WkG', {
+        attribution: 'Map tiles by <a href="https://www.maptiler.com/">MapTiler</a>, under <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>. Data by <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, under ODbL.',
+    }).addTo(map);
+
+    // Define colors for markers with smaller size
+    const HalalFood = L.icon({ iconUrl: 'halalfood.png', iconSize: [50,50] });
+    const SumoMuseum = L.icon({ iconUrl: 'sumou_icon.png', iconSize: [100, 100] });
+    const Skytree = L.icon({ iconUrl: 'skytree_icon.png', iconSize: [100, 100] });
+    const Hokusai = L.icon({ iconUrl: 'hokusai_icon.png', iconSize: [100, 100] });
+    const Sword = L.icon({ iconUrl: 'katana_icon.png', iconSize: [100, 100] });
+    const EdoTokyo = L.icon({ iconUrl: 'museum.png', iconSize: [100, 100] });
+    const Garden = L.icon({ iconUrl: 'garden.png', iconSize: [100, 100] });
+    const prayerroom = L.icon({ iconUrl: 'newpray.png', iconSize: [50, 50] });
+    const SmkgArea = L.icon({ iconUrl: 'smoking.png', iconSize: [30 ,30]});
+    const StationIcon = L.icon({ iconUrl: 'station.png', iconSize: [40,40]});
+    const Chanko = L.icon({ iconUrl: 'chanko_icon.png', iconSize: [100, 100]});
+    const restaurant = L.icon({ iconUrl: 'restaurant.png', iconSize: [40,40]});
+    const toilet = L.icon({ iconUrl: 'toilet.png', iconSize: [30,30]});
+    const locker = L.icon({ iconUrl: 'locker.png', iconSize: [50,50]});
+
+    // Add markers with respective colors
+    touristAttractions.forEach(attraction => {
+        let icon;
+        if (["Tokyo Skytree"].includes(attraction.name)) {
+            icon = Skytree;
+        } else if (["Sumida Hokusai Museum"].includes(attraction.name)) {
+            icon = Hokusai;
+        } else if (["The Japanese Sword Museum"].includes(attraction.name)) {
+            icon= Sword;
+        } else if (["Sumo Museum"].includes(attraction.name)) {
+            icon= SumoMuseum;
+        } else if (["Edo Tokyo Museum"].includes(attraction.name)) {
+            icon= EdoTokyo;
+        } else if (["Kuyuyasuda Garden"].includes(attraction.name)) {
+            icon= Garden;
+        } else if (["Chanko Doujou-main branch","Chanko Tomoegata"].includes(attraction.name)) {
+            icon= Chanko;
+        } else if (["Café Capyba","Tonkatsu Ichikatsu", "Asahi Sky Room","Sky Restaurant 634 (Musashi)", "Hasegawa", "Kirby Cafe Tokyo", "Hana Sushi"].includes(attraction.name)) {
+            icon= restaurant;
+        } else if (["Makurabashi Public Toilet", "Sumida Ward Sumida Park Japanese Garden South Park Toilet", "Town Walking Toilet Kotoibashi", "Sumida-ku Sumida Park Koume-ko back toilet", "Town walking toilet Narihirabashi", "Koume Children's Park Toilet", "Tobu Bridge Public Toilet", "Yokogawa Park toilet", "Yokogawa Bridge Public Toilet", "Honshi-Matsume Children's Playground Toilet", "Wakamiya Park toilet", "Park toilet near Sumida Park deck", "Nakanogo Children's Park Toilet", "Momijibashi children's playground toilet", "Narihira Park toilet", "Public toilet in the bicycle parking lot in front of Oshiage Station", "Keisei Bridge Public Toilet", "Bronze Moat Park Toilet", "Ukeji children's playground toilet", "Sakuranbo children's playground toilet", "Hoonji Bridge Public Toilet", "Public toilet on the north side of the Tokyo Metropolitan Memorial Hall", "Nisshin Park toilet", "Public restroom on the south side of the Tokyo Memorial Hall", "Kurumi public toilet", "Kamezawa Daiichi Children's Park Toilet", "Fujinoki Park Toilet", "Sasanoha children's playground toilet", "Former Yasuda Garden Shinjitei toilet", "Old Yasuda Garden Toilet", "Public toilet in Midoricho Park", "Yanagishima Bridge Public Toilet", "Yokogawa Triangle Park Toilet", "Rohan Children's Park Toilet", "Town walking toilet Kinshi", "Nagakura public toilet", "Asunaro Children's Park Toilet", "Kyojima West Park Toilet", "Kuriharabashi Public Toilet", "Yokogawa Higashi Park Toilet", "Tsutsumidori Park Toilet", "Oshiage Daini Children's Park Toilet", "Ryogoku Daiichi Children's Amusement Park Toilet", "Acorn Children's Park Toilet", "Public toilet in Bunka Park", "Ryogoku Station West Exit Public Toilet", "Public toilet in Kinshi Park", "Kyojima Minami Park Toilet", "Higashimukojima Fuji Park Toilet", "Koto Bridge Public Toilet", "Kotobashi 2-chome public toilet", "Hikifune Sakura Park Toilet", "Mukojima Hyakkaen Toilet 1", "Kinshi Park restroom east", "Tochinoki children's playground toilet", "Mukojima Hyakkaen Toilet 2", "Ryogoku Park toilet", "Sakura Children's Park Toilet", "Hara Park toilet", "Kinshicho station public toilet", "Karatachi public toilet", "Azuma Hyakjuen Toilet", "Bunkamiya Maebashi Park Toilet", "Public toilet in Kotobashi Park", "Kikuhana children's playground toilet", "Sannohashi Public Toilet", "Tachikawa Daini Children's Park Toilet", "Higashimukojima Kita Park Toilet", "Yahiro 1-chome children's playground toilet", "Satsuki Park toilet", "Ryogoku Bridge Public Toilet", "Green and flower learning garden park toilet", "Hiiragi Park toilet", "Komurai public toilet", "Keyaki Children's Park Toilet", "Public toilet in Kinshibori Park", "Kikugawa Park toilet", "Choju Garden Toilet", "Shirahige public toilet", "Shirahige Park toilet", "Nagaura Children's Park Toilet", "Fukujinbashi Public Toilet", "Chitose Park toilet", "Funahara Park toilet", "Tategawa Shinsui Park toilet", "Chuwa Park Toilet", "Natsume Park Toilet", "Miwasato Park Toilet", "Tokyo Metropolitan Higashi Shirahige Park Toilet 3", "Miwa-ri public toilet", "Yahiro Central Park Toilet", "Yahiro Daiichi Children's Park Toilet", "Kikugawa Bridge Public Toilet", "Tachibana Park toilet", "Kikugawa 3-chome Children's Square Toilet", "Sumida No. 6 Children's Park Toilet", "Tachibana Nakayoshi Park Toilet", "Kodemari children's playground toilet", "Higashi Azuma Park Toilet", "Ohata public toilet", "Sumida Third Children's Park Toilet", "Yahiro 3-chome Children's Square Toilet", "Shin-Hiraibashi Park Toilet", "Yahiro Park toilet", "Tachibana Daiichi Children's Park Toilet", "Higashi Sumida Daiichi Park Toilet", "Public toilet in Nakagawa Park", "Yamabuki public toilet", "Tokyo Metropolitan Higashi Shirahige Park Toilet 2", "Tokyo Metropolitan Higashi Shirahige Park Toilet 4", "Yahiro Azuma Park Toilet", "Sumida 2-chome children's playground toilet", "Goazuma children's playground toilet", "wig children's playground toilet", "Suzukake Children's Park Toilet", "Higashi Sumida 1-chome public toilet", "Public toilet in Umewaka Park", "Tachibana 5-chome public toilet", "Yahiro Tsurukame children's playground toilet", "Sumida West Children's Park Toilet", "Hiraibashi Daiichi Park Toilet", "Fukuju Park toilet", "Rokken Children's Park Toilet", "Public toilet in Azuma Nishi Park", "Sumida Higashi Children's Park Toilet", "Tachibana children's playground toilet", "Sumida Daini Children's Park Toilet", "Yahiro Rokunishi Children's Park Toilet", "Sumida Children's Park Toilet", "Hiraibashi Daini Park Toilet", "Tachibana Ikoi Park Toilet", "Sumida Higashi Daini Children's Playground Toilet", "Higashi Sumida Park toilet", "Kinegawa Park Toilet", "Hiraibashi Public Toilet", "Tachibana 6-chome children's playground toilet", "east park toilet", "Tokyo Metropolitan Higashi Shirahige Park Toilet 1", "Higashi Sumida Higashi Park Toilet", "Tsubaki Park Toilet"
+        ].includes(attraction.name)) {
+            icon= toilet;
+        } else if (["Sumida River Kitchen","Toquio Muslim Hanten"].includes(attraction.name)) {
+            icon= HalalFood;
+        } else if (["Tokyo Skytree Station","RYŌGOKU STATION", "Kinshichō Station "].includes(attraction.name)) {
+            icon= StationIcon;
+        } else if (["Uso no tabacco Cafe&Bar","Tokyo Skytree smoking area","Asuka Ryogoku Ekimae store Indoor Smoking Area", "Ryogoku Station West Exit", "Public Open Space", "JEI Ryogoku Building", "Kinshicho South Exit", "North Exit Smoking Area", "Solamachi 7F Smoking Area", "Solamachi 3F", "In Front of Tokyo Skytree Observation Deck", "Tobu Bridge Public Toilet Smoking Area (Tokyo Skytree Station)", "Solamachi 4th Floor Smoking Area", "Oshiage Station", "Times Central Square Oshiage Ekimae Store 4th Floor", "Skytree East Yard 10", "Hikifune Cultural Center"
+        ].includes(attraction.name)) {
+            icon= SmkgArea;
+        } else {
+            icon = prayerroom;
+        }
+
+        // Add marker to the map
+        const marker = L.marker([attraction.lat, attraction.lng], { icon }).addTo(map);
+
+        // Add popup to the marker
+        marker.bindPopup(`<b>${attraction.name}</b><br><a href="https://www.google.com/maps/dir/?api=1&destination=${attraction.lat},${attraction.lng}&travelmode=walking" target="_blank">Open route</a>`);
+
+    })
+</script>
+<div class = "sponsor-banner">
+    <a href="https://www.higashin.co.jp/" target="_blank">
+        <img src="higashin_logo.svg" alt="higashin">
+    </a>
+    <a href="https://visit-sumida.jp/en/" target="_blank">
+        <img src="tourism_association.svg" alt="tourism_association">
+    </a>
+</div>
+<footer>
+    Copyright © 2024 L3S All Rights Reserved
+</footer>
+</body>
+</html>

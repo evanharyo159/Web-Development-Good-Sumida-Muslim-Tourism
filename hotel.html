@@ -1,0 +1,301 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>JapanIkimashou-CulinarySpot</title>
+        <style>
+            /* General Reset */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+
+            body {
+                line-height: 1.6;
+                background-color: #f4f4f4;
+                color: #333;
+            }
+            .header{
+                position: fixed;
+                top:0;
+                left:0;
+                width:100%;
+                z-index: 1000;
+                background-color: #f4f4f4;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);;
+            }
+
+            .header-inner {
+                max-width: 100%;
+                height: 110px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #f4f4f4;
+                padding:0 40px;
+            }
+            .h3 {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 24px;
+                color: #8DC3F2;
+                font-weight: bold;
+            }
+
+            .header-logo {
+                width: 170px;
+            }
+
+            .site-menu ul{
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: inline-flex;
+                gap:20px;
+            }
+
+            .site-menu ul li a{
+                text-decoration: none;
+                font-size: 18px;
+                color: #8DC3F2;
+                transition: color 0.3s;
+            }
+
+            .site-menu li a:hover{
+                color: #e14b4b;
+            }
+
+            /* 登録ボタン */
+            .register .btn {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #007bff; /* ボタンの背景色 */
+                color: #fff; /* テキストの色 */
+                text-decoration: none;
+                border-radius: 5px; /* ボタンの角丸 */
+                font-size: 16px; /* テキストサイズ */
+                font-weight: bold; /* 太字にする場合 */
+                border: none; /* 枠線をなくす */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ボタンの影 */
+                transition: background-color 0.3s, transform 0.2s; /* ホバーアニメーション */
+                cursor: pointer; /* ホバー時のカーソル変更 */
+            }
+
+            /* ホバー時のスタイル */
+            .register .btn:hover {
+                background-color: #0056b3; /* ホバー時の背景色 */
+                transform: translateY(-2px); /* ボタンを少し上に動かす */
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* ホバー時の影 */
+            }
+
+            /* ボタンを右端に配置 */
+            .register {
+                text-align: right;
+            }
+
+
+            .photo {
+                display: flex;
+            }
+
+            .photo img {
+                width: 33.4%;
+                position: relative;
+                object-fit: cover;
+            }
+
+            .Japan p {
+                font-size: 1.2em;
+                line-height: 1.8;
+                font-weight: 300;
+                text-align: justify;
+            }
+            .Japan {
+                background-color: white; /* Solid background color */
+                padding: 20px;
+                margin: 20px auto;
+                max-width: 800px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                color: #333; /* Ensure text color contrasts with the background */
+                opacity: 80%;
+            }
+            .sponsor-banner{
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                flex-wrap: wrap;
+                margin: 20px auto;
+                padding: 10px 0;
+            }
+            .sponsor-banner a{
+                display: block;
+                text-decoration: none;
+                width: 200px;
+                height: 50px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .sponsor-banner img{
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                object-position: center;
+                transition: transform 0.3s ease;
+            }
+            .sponsor-banners img:hover {
+                transform: scale(1.05);
+            }
+            #map {
+                height: 500px; /* Map height */
+                width: 95vw; /* Map width to almost fill the screen */
+                margin: 20px auto; /* Center the map horizontally */
+                border: 2px solid #ccc; /* Optional: Border around the map */
+                border-radius: 10px; /* Optional: Rounded corners */
+            }
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            footer {
+                background: #333;
+                color: #fff;
+                text-align: center;
+                padding: 10px 0;
+                margin-top: 20px;
+            }
+
+            table {
+                width: 90%;
+                margin: 20px auto;
+                margin-top: 150px;
+                border-collapse: collapse;
+                background: #fff;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+
+            table th, table td {
+                padding: 12px;
+                text-align: left;
+                border: 1px solid #ddd;
+            }
+
+            table th {
+                background-color: #f4f4f4;
+                font-weight: bold;
+            }
+
+            table tbody tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            table tbody tr:hover {
+                background-color: #f1f1f1;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="header">
+            <div class="header-inner">
+                <a class="header-logo" href="./Home.html">
+                    <img src="logo_new.png" alt="Logo">
+                </a>
+                <div class="header-site-menu">
+                    <nav class="site-menu">
+                        <ul>
+                            <li><a href="http://localhost/TESTDB_JapanIkimashou/home.html">Home</a></li>
+                            <li><a href="http://localhost/TESTDB_JapanIkimashou/culinary.html", class="highlight">Culinary Spot</a></li>
+                            <li><a href="http://localhost/TESTDB_JapanIkimashou/tourist.html">Tourist Attractions</a></li>
+                            <li><a href="http://localhost/TESTDB_JapanIkimashou/hotel.html">Accommodation</a></li>
+                            <li><a href="http://localhost/TESTDB_JapanIkimashou/prayer_room.html">Prayer Room Spot</a></li>
+                            <li><a href="http://localhost/TESTDB_JapanIkimashou/itinerary.php">Your Trip Itinerary and Budget</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="register">
+                    <a class="btn" href="./RegisterYourself.html">Registration</a>
+                </div>
+            </div>
+        </header>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Website</th>
+                    <th>Maps</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Richmond Hotel Premier Tokyo Schole</td>
+                    <td>1-10-3 Oshiage, Sumida Ward, Tokyo</td>
+                    <td><a href="https://richmondhotel.jp/tokyo-oshiage/" target="_blank">Visit Website</a></td>
+                    <td><a href="https://www.google.com/maps/place/Richmond+Hotel+Premier+Tokyo+Schole/@35.7102341,139.811183,17z/data=!3m1!4b1!4m9!3m8!1s0x60188f2a27c23a95:0x79af3d917213da7b!5m2!4m1!1i2!8m2!3d35.7102341!4d139.8137579!16s%2Fg%2F11clsdkv1_?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">Click here for maps!</a></td>
+                </tr>
+                <tr>
+                    <td>DAI-ICHI HOTEL RYOGOKU</td>
+                    <td>1-6-1 Yokoami, Sumida-ku, Tokyo 130-0015</td>
+                    <td><a href="https://dh-ryogoku.com/en/" target="_blank">Visit Website</a></td>
+                    <td><a href="https://www.google.com/maps/place/Dai-ichi+Hotel+Ryogoku/@35.698206,139.7945077,17z/data=!3m2!4b1!5s0x60188934ca359083:0x5d75a5080b0b1835!4m9!3m8!1s0x60188934cb5437c1:0x2335beeeaeef8816!5m2!4m1!1i2!8m2!3d35.698206!4d139.7970826!16s%2Fg%2F122pdfw4?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">Click here for maps!</a></td>
+                </tr>
+                <tr>
+                    <td>Hotel Famy in Kinshicho</td>
+                    <td>2-17-4, Koto-bashi, Sumida-ku, Tokyo</td>
+                    <td><a href="https://www.famy-inn.com/" target="_blank">Visit Website</a></td>
+                    <td><a href="https://www.google.com/maps/place/Famy+Inn+Kinshicho/@35.6959726,139.8098757,16z/data=!3m2!4b1!5s0x601889286d5df597:0xbd00013eee9b3269!4m9!3m8!1s0x601889286d505f71:0xd2837acb271f8441!5m2!4m1!1i2!8m2!3d35.6959726!4d139.8124506!16s%2Fg%2F1tmqg5vc?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" target="_blank">Click here for maps!</a></td>
+                </tr>
+                <tr>
+                    <td>Tobu Hotel Levant Tokyo</td>
+                    <td>1-2-2 Kinshi, Sumida-ku, Tokyo, 130-0013</td>
+                    <td><a href="https://www.tobuhotel.co.jp/levant/en/" target="_blank">Visit Website</a></td>
+                </tr>
+                <tr>
+                    <td>Pearl hotel Ryogoku</td>
+                    <td>1-2-24 Yokoami, Sumida-ku, Tokyo, JAPAN</td>
+                    <td><a href="https://www.pearlhotels.jp/en/ryogoku/index.html" target="_blank">Visit Website</a></td>
+                </tr>
+                <tr>
+                    <td>Ryogoku River Hotel</td>
+                    <td>2-13-8 Ryogoku, Sumida-ku, Tokyo</td>
+                    <td><a href="https://www.riverhotel.jp/" target="_blank">Visit Website</a></td>
+                </tr>
+                <tr>
+                    <td>Hotel Park Avenue</td>
+                    <td>4-16-11 Kinshi, Sumida, Tokyo</td>
+                    <td><a href="http://www.hotel-pa.co.jp/foreign/eng.html" target="_blank">Visit Website</a></td>
+                </tr>
+                <tr>
+                    <td>LOTTE CITY HOTEL KINSHICHO</td>
+                    <td>4-6-1 Kinshi, Sumida-ku, Tokyo</td>
+                    <td><a href="https://lottecityhotel.jp/en/" target="_blank">Visit Website</a></td>
+                </tr>
+                <tr>
+                    <td>Ryogoku View Hotel</td>
+                    <td>2-19-1 Ryogoku, Sumida-ku, 130-0026 Tokyo, Japan</td>
+                    <td><a href="https://www.viewhotels.co.jp/ryogoku/" target="_blank">Visit Website</a></td>
+                </tr>
+    
+            </tbody>
+        </table>
+        <div class = "sponsor-banner">
+            <a href="https://www.higashin.co.jp/" target="_blank">
+                <img src="higashin_logo.svg" alt="higashin">
+            </a>
+            <a href="https://visit-sumida.jp/en/" target="_blank">
+                <img src="tourism_association.svg" alt="tourism_association">
+            </a>
+        </div>
+        <footer>
+            Copyright © 2024 L3S All Rights Reserved
+        </footer>
+    </body>
+</html>
